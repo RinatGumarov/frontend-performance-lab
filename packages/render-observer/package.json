@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/riguran/frontend-performance-lab.git",
+    "url": "git+https://github.com/rinatgumarov/frontend-performance-lab.git",
     "directory": "packages/render-observer"
   },
-  "homepage": "https://github.com/riguran/frontend-performance-lab/tree/main/packages/render-observer#readme",
+  "homepage": "https://github.com/rinatgumarov/frontend-performance-lab/tree/main/packages/render-observer#readme",
   "bugs": {
-    "url": "https://github.com/riguran/frontend-performance-lab/issues"
+    "url": "https://github.com/rinatgumarov/frontend-performance-lab/issues"
   },
   "keywords": [
     "performance",

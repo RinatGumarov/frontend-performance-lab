@@ -2,7 +2,7 @@
 
 A small typed observer for collecting structural rendering evidence. Its framework-free core tracks named render counts, mounted collection sizes, React Profiler commits, context, and animation-frame samples. React integration is available through a separate peer-dependent subpath.
 
-The package powers the [Frontend Performance Lab](https://github.com/riguran/frontend-performance-lab), where the same snapshot feeds visible metrics and browser-level assertions.
+The package powers the [Frontend Performance Lab](https://github.com/rinatgumarov/frontend-performance-lab), where the same snapshot feeds visible metrics and browser-level assertions.
 
 ## Installation
 

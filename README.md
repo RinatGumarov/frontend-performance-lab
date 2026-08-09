@@ -2,7 +2,7 @@
 
 An instrumented React case study that renders 100,000 deterministic synthetic trades while keeping high-frequency tooltip updates outside the dashboard render path.
 
-[![CI](https://github.com/riguran/frontend-performance-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/riguran/frontend-performance-lab/actions/workflows/ci.yml)
+[![CI](https://github.com/rinatgumarov/frontend-performance-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rinatgumarov/frontend-performance-lab/actions/workflows/ci.yml)
 
 ## What this proves
 
@@ -15,10 +15,10 @@ The default view is the optimized 100K case. Baseline mode is intentionally capp
 
 ## Live demo
 
-- [Application](https://riguran.github.io/frontend-performance-lab/)
-- [Storybook](https://riguran.github.io/frontend-performance-lab/storybook/)
+- [Application](https://rinatgumarov.github.io/frontend-performance-lab/)
+- [Storybook](https://rinatgumarov.github.io/frontend-performance-lab/storybook/)
 - [npm package](https://www.npmjs.com/package/@riguran/render-observer)
-- [Source repository](https://github.com/riguran/frontend-performance-lab)
+- [Source repository](https://github.com/rinatgumarov/frontend-performance-lab)
 
 The application and Storybook are assembled into one GitHub Pages artifact. Package releases use the same source tree and a separately verified package boundary.
 
