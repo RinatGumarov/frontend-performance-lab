@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook build --output-dir storybook-static",
-    "benchmark": "playwright test e2e/performance.spec.ts",
+    "benchmark": "WRITE_BENCHMARK_REPORT=1 playwright test e2e/performance.spec.ts",
     "preview": "vite preview",
     "storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook dev --port 6006",
     "test:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 vitest run --project=storybook",

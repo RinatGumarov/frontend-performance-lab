@@ -24,7 +24,7 @@ async function moveAcrossChart(page: Page): Promise<void> {
 test('opens in the optimized 100K state and reaches the end of the virtual table', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/frontend-performance-lab/');
 
   await expect(page.getByRole('radio', { name: 'Optimized' })).toBeChecked();
   await expect(page.getByRole('radio', { name: '100K' })).toBeChecked();
@@ -51,7 +51,7 @@ test('opens in the optimized 100K state and reaches the end of the virtual table
 test('supports keyboard mode changes and clamps the baseline to 10K', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/frontend-performance-lab/');
 
   const optimized = page.getByRole('radio', { name: 'Optimized' });
   const baseline = page.getByRole('radio', { name: 'Baseline' });
@@ -73,7 +73,7 @@ test('supports keyboard mode changes and clamps the baseline to 10K', async ({
 
 test('keeps the page inside a narrow viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/frontend-performance-lab/');
 
   await expect(
     page.getByRole('heading', {
@@ -98,7 +98,7 @@ test('shows a stable fallback when the chart vendor cannot start', async ({
       },
     });
   });
-  await page.goto('/');
+  await page.goto('/frontend-performance-lab/');
 
   await expect(page.getByRole('status').filter({ hasText: 'Chart unavailable' })).toBeVisible();
 });

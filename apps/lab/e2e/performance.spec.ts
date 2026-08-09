@@ -98,7 +98,7 @@ test('records reproducible structural rendering evidence', async ({
   browserName,
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/frontend-performance-lab/');
   await waitForMode(page, 'optimized', 100_000);
 
   const optimizedAt100K = await snapshot(page);
@@ -145,10 +145,12 @@ test('records reproducible structural rendering evidence', async ({
     disclaimer: 'Local observation; not a universal guarantee.',
   };
 
-  await mkdir(performanceDirectory, { recursive: true });
-  await writeFile(
-    `${performanceDirectory}/raw.json`,
-    `${JSON.stringify(report, null, 2)}\n`,
-    'utf8',
-  );
+  if (process.env.WRITE_BENCHMARK_REPORT === '1') {
+    await mkdir(performanceDirectory, { recursive: true });
+    await writeFile(
+      `${performanceDirectory}/raw.json`,
+      `${JSON.stringify(report, null, 2)}\n`,
+      'utf8',
+    );
+  }
 });

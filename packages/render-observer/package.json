@@ -1,7 +1,7 @@
 {
   "name": "@riguran/render-observer",
   "version": "0.1.0",
-  "private": true,
+  "description": "Typed structural rendering metrics with a framework-free core and React adapters.",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -24,6 +24,24 @@
   "engines": {
     "node": ">=20"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riguran/frontend-performance-lab.git",
+    "directory": "packages/render-observer"
+  },
+  "homepage": "https://github.com/riguran/frontend-performance-lab/tree/main/packages/render-observer#readme",
+  "bugs": {
+    "url": "https://github.com/riguran/frontend-performance-lab/issues"
+  },
+  "keywords": [
+    "performance",
+    "react",
+    "profiler",
+    "rendering",
+    "instrumentation"
+  ],
+  "author": "Rinat",
+  "license": "MIT",
   "scripts": {
     "build": "tsup",
     "test:unit": "vitest run",

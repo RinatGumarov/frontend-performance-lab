@@ -10,6 +10,7 @@ export default tseslint.config(
     ignores: [
       '**/coverage/**',
       '**/dist/**',
+      '**/dist-pages/**',
       '**/playwright-report/**',
       '**/storybook-static/**',
       '**/test-results/**',

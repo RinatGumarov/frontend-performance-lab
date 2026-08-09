@@ -1,6 +1,6 @@
 # Local benchmark evidence
 
-Generated at 2026-08-09T17:00:33.245Z with chromium at 1440 × 900 on darwin/arm64.
+Generated at 2026-08-09T17:19:17.767Z with chromium at 1440 × 900 on darwin/arm64.
 
 | Mode | Dataset | Dashboard render delta | Mounted rows | Profiler commit delta | Observed commit duration |
 | --- | ---: | ---: | ---: | ---: | ---: |
