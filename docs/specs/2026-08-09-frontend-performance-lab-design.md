@@ -293,7 +293,7 @@ Commit and author dates reflect the actual work. The history does not use fabric
 9. Update live links only after both release surfaces pass.
 10. Treat GitHub profile pinning and resume edits as separate external actions.
 
-The first npm release may be approved manually with 2FA. Trusted Publishing can be configured for subsequent releases without a long-lived npm token.
+The first npm release runs in a protected GitHub Actions environment with provenance and a short-lived granular token, because npm requires a package to exist before Trusted Publishing can be configured. The token is revoked immediately after `0.1.0`; subsequent releases use Trusted Publishing without a long-lived token.
 
 ## Acceptance criteria
 
