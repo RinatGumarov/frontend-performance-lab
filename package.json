@@ -9,11 +9,14 @@
   "scripts": {
     "build": "pnpm -r --if-present build",
     "build:storybook": "pnpm --filter @riguran/frontend-performance-lab build:storybook",
+    "benchmark": "pnpm --filter @riguran/frontend-performance-lab benchmark && node scripts/write-benchmark-report.mjs",
     "lint": "eslint .",
     "pack:check": "node scripts/verify-package.mjs",
     "typecheck": "pnpm -r --if-present typecheck",
-    "test:unit": "pnpm -r --if-present test:unit",
+    "test:unit": "pnpm -r --if-present test:unit && pnpm test:scripts",
     "test:storybook": "pnpm --filter @riguran/frontend-performance-lab test:storybook",
+    "test:e2e": "pnpm --filter @riguran/frontend-performance-lab test:e2e",
+    "test:scripts": "node --test scripts/*.test.mjs",
     "storybook": "pnpm --filter @riguran/frontend-performance-lab storybook",
     "verify:local": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm build"
   },

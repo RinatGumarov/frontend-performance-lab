@@ -42,6 +42,7 @@ export default defineConfig({
             '**/node_modules/**',
             '**/dist/**',
             '**/storybook-static/**',
+            '**/e2e/**',
             '**/*.stories.{ts,tsx}',
           ],
         },

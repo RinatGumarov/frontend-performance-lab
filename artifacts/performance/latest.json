@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "context": {
+      "datasetSize": 10000,
+      "mode": "baseline"
+    },
+    "frames": {
+      "gapCount": 0,
+      "maxGapMs": 0,
+      "sampleCount": 0
+    },
+    "mountedItems": {
+      "trades": 10000
+    },
+    "profiler": {
+      "commitCount": 0,
+      "totalDurationMs": 0
+    },
+    "renders": {
+      "dashboard": 30,
+      "tooltip": 0
+    }
+  },
+  "browser": "chromium",
+  "disclaimer": "Local observation; not a universal guarantee.",
+  "generatedAt": "2026-08-09T17:00:33.245Z",
+  "optimized": {
+    "context": {
+      "datasetSize": 10000,
+      "mode": "optimized"
+    },
+    "frames": {
+      "gapCount": 0,
+      "maxGapMs": 0,
+      "sampleCount": 0
+    },
+    "mountedItems": {
+      "trades": 22
+    },
+    "profiler": {
+      "commitCount": 0,
+      "totalDurationMs": 0
+    },
+    "renders": {
+      "dashboard": 0,
+      "tooltip": 30
+    }
+  },
+  "viewport": {
+    "height": 900,
+    "width": 1440
+  }
+}

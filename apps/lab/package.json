@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook build --output-dir storybook-static",
+    "benchmark": "playwright test e2e/performance.spec.ts",
     "preview": "vite preview",
     "storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook dev --port 6006",
     "test:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 vitest run --project=storybook",
+    "test:e2e": "playwright test",
     "test:unit": "vitest run --project=unit",
     "typecheck": "tsc -b --pretty false"
   },
@@ -21,6 +23,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@storybook/addon-a11y": "^10.5.7",
     "@storybook/addon-vitest": "^10.5.7",
     "@storybook/react-vite": "^10.5.7",

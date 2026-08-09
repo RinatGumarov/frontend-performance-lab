@@ -1,0 +1,53 @@
+{
+  "browser": "chromium",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "generatedAt": "2026-08-09T17:01:00.536Z",
+  "baseline": {
+    "context": {
+      "mode": "baseline",
+      "datasetSize": 10000
+    },
+    "renders": {
+      "tooltip": 0,
+      "dashboard": 30
+    },
+    "mountedItems": {
+      "trades": 10000
+    },
+    "profiler": {
+      "commitCount": 0,
+      "totalDurationMs": 0
+    },
+    "frames": {
+      "sampleCount": 0,
+      "gapCount": 0,
+      "maxGapMs": 0
+    }
+  },
+  "optimized": {
+    "context": {
+      "mode": "optimized",
+      "datasetSize": 10000
+    },
+    "renders": {
+      "dashboard": 0,
+      "tooltip": 30
+    },
+    "mountedItems": {
+      "trades": 22
+    },
+    "profiler": {
+      "commitCount": 0,
+      "totalDurationMs": 0
+    },
+    "frames": {
+      "sampleCount": 0,
+      "gapCount": 0,
+      "maxGapMs": 0
+    }
+  },
+  "disclaimer": "Local observation; not a universal guarantee."
+}
