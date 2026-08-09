@@ -7,8 +7,7 @@ const preview: Preview = {
       test: 'error',
     },
     backgrounds: {
-      default: 'Graphite',
-      values: [{ name: 'Graphite', value: '#0b0d10' }],
+      disable: true,
     },
     controls: {
       matchers: {

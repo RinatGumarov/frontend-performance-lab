@@ -1,8 +1,8 @@
 .viewport {
   overflow-x: auto;
-  border: 1px solid #252b33;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #11151a;
+  background: var(--surface);
 }
 
 .table {
@@ -24,9 +24,9 @@
   z-index: 1;
   top: 0;
   min-height: 2.75rem;
-  border-bottom: 1px solid #2c343e;
-  color: #8ea0b5;
-  background: #11151a;
+  border-bottom: 1px solid var(--border-strong);
+  color: var(--muted);
+  background: var(--surface);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -35,8 +35,8 @@
 
 .row {
   min-height: 2.75rem;
-  border-bottom: 1px solid #20262d;
-  color: #dce3ea;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
   font-variant-numeric: tabular-nums;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .row:hover {
-  background: #161c22;
+  background: oklch(0.19 0.01 255);
 }
 
 .cell {
@@ -69,16 +69,16 @@
 .resultLabel {
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .profit {
-  color: #6ee7b7;
+  color: var(--accent);
 }
 
 .loss {
-  color: #fb7185;
+  color: var(--danger);
 }
 
 .virtualTable {

@@ -40,6 +40,21 @@ const SAMPLE_STATUS_COPY = {
   error: 'Animation frame sample failed.',
 } as const;
 
+const PROJECT_LINKS = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/rinatgumarov/frontend-performance-lab',
+  },
+  {
+    label: 'Storybook',
+    href: 'https://rinatgumarov.github.io/frontend-performance-lab/storybook/',
+  },
+  {
+    label: 'npm',
+    href: 'https://www.npmjs.com/package/@riguran/render-observer',
+  },
+] as const;
+
 export interface AppProps {
   observer?: RenderObserver;
   chartFactory?: EquityChartFactory;
@@ -112,9 +127,20 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
       <header className={styles.header}>
         <nav aria-label="Project links" className={styles.navigation}>
           <span className={styles.brand}>Frontend Performance Lab</span>
-          <span aria-label="Links become active after publication" className={styles.inactiveLinks}>
-            GitHub · Storybook · npm
-          </span>
+          <ul className={styles.navLinks}>
+            {PROJECT_LINKS.map((link) => (
+              <li key={link.label}>
+                <a
+                  className={styles.navLink}
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
         <div>
           <p className={styles.eyebrow}>Instrumented React case study</p>
