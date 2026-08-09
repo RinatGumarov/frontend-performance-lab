@@ -188,7 +188,7 @@ The product balances an engineering lab with a polished portfolio piece:
 
 Optimized mode with 100,000 trades is the default public view. Selecting baseline while 100,000 is active clamps the effective dataset to 10,000 and displays the safety explanation.
 
-The visual language must not copy TradingView or another employer product.
+The visual language must remain original rather than imitate another trading product.
 
 ## Storybook
 

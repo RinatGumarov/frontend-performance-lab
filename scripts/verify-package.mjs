@@ -72,7 +72,8 @@ function assertPackageContents(files) {
 }
 
 async function writeConsumer(consumerDirectory, tarballPath) {
-  await mkdir(consumerDirectory, { recursive: true });
+  const examplesDirectory = join(consumerDirectory, 'examples');
+  await mkdir(examplesDirectory, { recursive: true });
 
   const packageJson = {
     name: 'render-observer-consumer-check',
@@ -96,29 +97,13 @@ async function writeConsumer(consumerDirectory, tarballPath) {
       noEmit: true,
       skipLibCheck: true,
     },
-    include: ['example.tsx'],
+    include: ['examples/**/*'],
   };
-  const example = `import { createRenderObserver } from '@riguran/render-observer';
-import {
-  RenderProfiler,
-  useRenderMarker,
-  useRenderSnapshot,
-} from '@riguran/render-observer/react';
-
-const observer = createRenderObserver({ mode: 'optimized' });
-
-function Dashboard() {
-  useRenderMarker(observer, 'dashboard');
-  const snapshot = useRenderSnapshot(observer);
-  return <output>{snapshot.renders.dashboard ?? 0}</output>;
-}
-
-export const example = (
-  <RenderProfiler id="dashboard" observer={observer}>
-    <Dashboard />
-  </RenderProfiler>
-);
-`;
+  const readme = await readFile(join(packageDirectory, 'README.md'), 'utf8');
+  const examples = [...readme.matchAll(/^```(ts|tsx)\n([\s\S]*?)^```$/gm)];
+  if (examples.length === 0) {
+    throw new Error('Package README contains no TypeScript examples');
+  }
 
   await Promise.all([
     writeFile(
@@ -129,8 +114,15 @@ export const example = (
       join(consumerDirectory, 'tsconfig.json'),
       `${JSON.stringify(tsconfig, null, 2)}\n`,
     ),
-    writeFile(join(consumerDirectory, 'example.tsx'), example),
+    ...examples.map((example, index) =>
+      writeFile(
+        join(examplesDirectory, `example-${index + 1}.${example[1]}`),
+        example[2],
+      ),
+    ),
   ]);
+
+  return examples.length;
 }
 
 const temporaryDirectory = await mkdtemp(join(tmpdir(), 'render-observer-'));
@@ -150,7 +142,7 @@ try {
   await readFile(tarballPath);
 
   const consumerDirectory = join(temporaryDirectory, 'consumer');
-  await writeConsumer(consumerDirectory, tarballPath);
+  const exampleCount = await writeConsumer(consumerDirectory, tarballPath);
   run('pnpm', ['install', '--ignore-workspace'], { cwd: consumerDirectory });
   run(
     'node',
@@ -168,6 +160,7 @@ try {
 
   console.log(`Verified ${metadata.name}@${metadata.version}`);
   console.log(`Packed files: ${metadata.files.length}`);
+  console.log(`Compiled README examples: ${exampleCount}`);
 } finally {
   await rm(temporaryDirectory, { recursive: true, force: true });
 }
