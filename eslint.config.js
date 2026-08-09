@@ -40,5 +40,12 @@ export default tseslint.config(
   {
     files: ['**/*.tsx'],
     ...jsxA11y.flatConfigs.recommended,
+    rules: {
+      ...jsxA11y.flatConfigs.recommended.rules,
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'error',
+        { roles: ['rowgroup'] },
+      ],
+    },
   },
 );

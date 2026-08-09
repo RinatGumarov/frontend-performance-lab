@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook build --output-dir storybook-static",
     "preview": "vite preview",
-    "test:unit": "vitest run",
+    "storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook dev --port 6006",
+    "test:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 vitest run --project=storybook",
+    "test:unit": "vitest run --project=unit",
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
@@ -18,6 +21,9 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-vitest": "^10.5.7",
+    "@storybook/react-vite": "^10.5.7",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.3",
@@ -25,7 +31,10 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
+    "@vitest/browser-playwright": "^4.1.10",
     "jsdom": "^30.0.1",
+    "playwright": "^1.62.1",
+    "storybook": "^10.5.7",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
     "vitest": "^4.1.10"

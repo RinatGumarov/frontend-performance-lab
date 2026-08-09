@@ -8,10 +8,13 @@
   },
   "scripts": {
     "build": "pnpm -r --if-present build",
+    "build:storybook": "pnpm --filter @riguran/frontend-performance-lab build:storybook",
     "lint": "eslint .",
     "pack:check": "node scripts/verify-package.mjs",
     "typecheck": "pnpm -r --if-present typecheck",
     "test:unit": "pnpm -r --if-present test:unit",
+    "test:storybook": "pnpm --filter @riguran/frontend-performance-lab test:storybook",
+    "storybook": "pnpm --filter @riguran/frontend-performance-lab storybook",
     "verify:local": "pnpm lint && pnpm typecheck && pnpm test:unit && pnpm build"
   },
   "devDependencies": {
