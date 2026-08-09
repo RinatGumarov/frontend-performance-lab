@@ -26,8 +26,17 @@ export default tseslint.config(
       },
     },
   },
+  {
+    files: ['**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
   reactHooks.configs.flat.recommended,
-  reactRefresh.configs.vite,
+  {
+    ...reactRefresh.configs.vite,
+    files: ['apps/lab/**/*.{js,jsx,ts,tsx}'],
+  },
   {
     files: ['**/*.tsx'],
     ...jsxA11y.flatConfigs.recommended,
