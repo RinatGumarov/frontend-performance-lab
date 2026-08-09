@@ -3,15 +3,17 @@
   gap: 1rem;
   align-content: start;
   padding: 1.25rem;
-  border: 1px solid #252b33;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #11151a;
+  background: var(--surface);
 }
 
 .heading {
   margin: 0;
-  color: #f4f5f7;
+  color: var(--fg);
+  font-family: var(--font-display);
   font-size: 1rem;
+  font-weight: 600;
 }
 
 .grid {
@@ -24,29 +26,29 @@
 .metric {
   min-width: 0;
   padding: 0.8rem;
-  border: 1px solid #20262d;
+  border: 1px solid var(--border);
   border-radius: 0.7rem;
-  background: #0d1115;
+  background: var(--surface-raised);
 }
 
 .metric dt {
-  color: #8ea0b5;
+  color: var(--muted);
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .metric dd {
   margin: 0.35rem 0 0;
-  color: #f4f5f7;
+  color: var(--fg);
   font-size: 1.35rem;
   font-variant-numeric: tabular-nums;
 }
 
 .note {
   margin: 0;
-  color: #718196;
+  color: var(--muted);
   font-size: 0.72rem;
   line-height: 1.5;
 }
