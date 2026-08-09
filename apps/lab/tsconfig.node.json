@@ -3,11 +3,20 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
+    "paths": {
+      "@riguran/render-observer": [
+        "../../packages/render-observer/src/index.ts"
+      ],
+      "@riguran/render-observer/react": [
+        "../../packages/render-observer/src/react.tsx"
+      ]
+    },
     "types": ["node"],
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
