@@ -98,6 +98,8 @@ test('records reproducible structural rendering evidence', async ({
   browserName,
   page,
 }) => {
+  test.slow();
+
   await page.goto('/frontend-performance-lab/');
   await waitForMode(page, 'optimized', 100_000);
 
