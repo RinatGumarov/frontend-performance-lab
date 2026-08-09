@@ -1,0 +1,45 @@
+{
+  "name": "@riguran/frontend-performance-lab",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook build --output-dir storybook-static",
+    "benchmark": "WRITE_BENCHMARK_REPORT=1 playwright test e2e/performance.spec.ts",
+    "preview": "vite preview",
+    "storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook dev --port 6006",
+    "test:storybook": "STORYBOOK_DISABLE_TELEMETRY=1 vitest run --project=storybook",
+    "test:e2e": "playwright test",
+    "test:unit": "vitest run --project=unit",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@riguran/render-observer": "workspace:*",
+    "@tanstack/react-virtual": "^3.14.9",
+    "lightweight-charts": "^5.2.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-vitest": "^10.5.7",
+    "@storybook/react-vite": "^10.5.7",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "@vitest/browser-playwright": "^4.1.10",
+    "jsdom": "^30.0.1",
+    "playwright": "^1.62.1",
+    "storybook": "^10.5.7",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
+  }
+}
