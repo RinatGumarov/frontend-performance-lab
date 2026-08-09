@@ -1,5 +1,5 @@
 import styles from './Tooltip.module.css';
-import type { TooltipSnapshot } from './tooltip';
+import type { TooltipSnapshot } from './tooltip-types';
 
 const pnlFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

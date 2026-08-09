@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import type { EquityPoint } from '../../domain/trade';
 import styles from './EquityChart.module.css';
-import { HIDDEN_TOOLTIP, type TooltipSnapshot } from './tooltip';
+import { HIDDEN_TOOLTIP, type TooltipSnapshot } from './tooltip-types';
 
 export interface ChartCrosshairEvent {
   point: { x: number; y: number } | null;

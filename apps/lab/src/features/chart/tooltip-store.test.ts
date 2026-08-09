@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { HIDDEN_TOOLTIP } from './tooltip';
+import { HIDDEN_TOOLTIP } from './tooltip-types';
 import { createTooltipStore } from './tooltip-store';
 
 describe('createTooltipStore', () => {

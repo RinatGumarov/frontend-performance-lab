@@ -1,4 +1,4 @@
-import { HIDDEN_TOOLTIP, type TooltipSnapshot } from './tooltip';
+import { HIDDEN_TOOLTIP, type TooltipSnapshot } from './tooltip-types';
 
 export interface TooltipStore {
   getSnapshot(): TooltipSnapshot;

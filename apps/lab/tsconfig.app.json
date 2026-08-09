@@ -4,6 +4,14 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
+    "paths": {
+      "@riguran/render-observer": [
+        "../../packages/render-observer/src/index.ts"
+      ],
+      "@riguran/render-observer/react": [
+        "../../packages/render-observer/src/react.tsx"
+      ]
+    },
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
