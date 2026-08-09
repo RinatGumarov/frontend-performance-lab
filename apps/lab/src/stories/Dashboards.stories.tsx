@@ -5,7 +5,7 @@ import { generateTrades } from '../domain/generate-trades';
 import { BaselineDashboard } from '../features/dashboard/BaselineDashboard';
 import { OptimizedDashboard } from '../features/dashboard/OptimizedDashboard';
 
-const trades = generateTrades(1_000, 42);
+const trades = generateTrades(1_000, 42).slice(0, 250);
 const equity = toEquitySeries(trades);
 
 function DashboardCatalog() {
