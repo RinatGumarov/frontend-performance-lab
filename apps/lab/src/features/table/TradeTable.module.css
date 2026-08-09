@@ -80,3 +80,19 @@
 .loss {
   color: #fb7185;
 }
+
+.virtualTable {
+  min-width: 64rem;
+}
+
+.virtualBody {
+  position: relative;
+  height: 37.5rem;
+  overflow-y: auto;
+  contain: strict;
+}
+
+.virtualCanvas {
+  position: relative;
+  width: 100%;
+}
