@@ -98,7 +98,7 @@ Both modes receive the same immutable `Trade[]` and derived equity series.
 
 ### Optimized mode
 
-- writes tooltip updates to an external observer store;
+- writes tooltip updates to a dedicated external tooltip store;
 - subscribes only the tooltip presentation component;
 - keeps the dashboard render count unchanged during tooltip movement after warm-up;
 - virtualizes the table with a small overscan window;
@@ -114,7 +114,7 @@ React Compiler remains disabled for the comparison. The optimization techniques 
 4. Equity aggregation runs once for the committed dataset.
 5. The selected dashboard receives the same trade and equity inputs.
 6. Pointer movement is converted by the shared chart adapter into `TooltipSnapshot` values.
-7. Baseline sends snapshots to React state; optimized sends them to the external store.
+7. Baseline sends snapshots to React state; optimized sends them to a dedicated tooltip store.
 8. The observer exposes render, mounted-row, profiler, and frame-sampling evidence.
 9. Playwright reads the same public snapshot contract used by the visible metrics panel.
 
