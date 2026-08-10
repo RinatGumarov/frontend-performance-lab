@@ -1,0 +1,98 @@
+.viewport {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.table {
+  min-width: 64rem;
+}
+
+.header,
+.row {
+  display: grid;
+  grid-template-columns: 5rem 6rem repeat(3, minmax(7rem, 1fr)) repeat(
+      2,
+      minmax(9rem, 1fr)
+    );
+  align-items: center;
+}
+
+.header {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  min-height: 2.75rem;
+  border-bottom: 1px solid var(--border-strong);
+  color: var(--muted);
+  background: var(--surface);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.row {
+  min-height: 2.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row:hover {
+  background: oklch(0.19 0.01 255);
+}
+
+.cell {
+  min-width: 0;
+  padding-inline: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.side {
+  text-transform: capitalize;
+}
+
+.result {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.resultLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profit {
+  color: var(--accent);
+}
+
+.loss {
+  color: var(--danger);
+}
+
+.virtualTable {
+  min-width: 64rem;
+}
+
+.virtualBody {
+  position: relative;
+  height: 37.5rem;
+  overflow-y: auto;
+  contain: strict;
+}
+
+.virtualCanvas {
+  position: relative;
+  width: 100%;
+}
