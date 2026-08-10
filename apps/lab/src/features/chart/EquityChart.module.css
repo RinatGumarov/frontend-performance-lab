@@ -1,0 +1,20 @@
+.root {
+  position: relative;
+  min-height: 22rem;
+  overflow: hidden;
+  border: 1px solid #252b33;
+  border-radius: 1rem;
+  background: #11151a;
+}
+
+.surface {
+  width: 100%;
+  height: clamp(22rem, 48vh, 34rem);
+}
+
+.fallback {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  color: #8ea0b5;
+}
