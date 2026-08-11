@@ -126,6 +126,27 @@ test('separates the controls from the dashboard', async ({ page }) => {
   await expectControlsDashboardGap(page);
 });
 
+test('records React profiler commits in the production build', async ({
+  page,
+}) => {
+  await page.goto('/frontend-performance-lab/');
+
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.__RENDER_LAB__.snapshot().profiler.commitCount,
+      ),
+    )
+    .toBeGreaterThan(0);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.__RENDER_LAB__.snapshot().profiler.totalDurationMs,
+      ),
+    )
+    .toBeGreaterThan(0);
+});
+
 test('offsets the tooltip from the cursor and flips it at chart edges', async ({
   page,
 }) => {

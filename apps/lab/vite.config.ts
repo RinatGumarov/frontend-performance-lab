@@ -12,6 +12,10 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: 'react-dom/client',
+        replacement: 'react-dom/profiling',
+      },
+      {
         find: '@riguran/render-observer/react',
         replacement: fileURLToPath(
           new URL(

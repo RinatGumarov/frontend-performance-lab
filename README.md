@@ -117,7 +117,7 @@ The browser benchmark is intentionally structural. CI does not fail because one 
 - The baseline cap means the project compares tooltip behavior at 10K, while the optimized-only row ceiling is demonstrated at 100K.
 - DOM windowing preserves semantic row markup and familiar React composition, but searching the full dataset requires application-level controls rather than browser text search.
 - The equity chart uses at most 2,000 chronologically ordered points, preserving endpoints and per-bucket minima and maxima. The virtual table still exposes all selected trades.
-- Render markers are portable structural evidence. React Profiler durations are available only in React builds with profiling enabled and remain observational.
+- Render markers are portable structural evidence. The deployed lab intentionally uses React's profiling production build so commit counts and durations remain available; those timings are observational and should only be compared within the same build and environment.
 - Deterministic fixtures improve repeatability but do not model a live feed, network backpressure, or server-side pagination.
 
 ## Privacy and provenance
