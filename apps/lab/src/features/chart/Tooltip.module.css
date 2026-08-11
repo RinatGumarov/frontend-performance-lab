@@ -13,6 +13,7 @@
   background: color-mix(in oklch, var(--bg) 92%, transparent);
   box-shadow: 0 0.75rem 2rem oklch(0 0 0 / 0.28);
   pointer-events: none;
+  will-change: transform;
 }
 
 .label {

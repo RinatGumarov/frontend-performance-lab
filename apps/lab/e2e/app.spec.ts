@@ -26,16 +26,32 @@ async function expectControlsDashboardGap(page: Page): Promise<void> {
   ).toBeGreaterThanOrEqual(16);
 }
 
-async function moveAcrossChart(page: Page): Promise<void> {
+interface RelativeChartPoint {
+  x: number;
+  y: number;
+}
+
+interface CursorPosition {
+  x: number;
+  y: number;
+}
+
+async function moveAcrossChart(
+  page: Page,
+  point: RelativeChartPoint = { x: 0.45, y: 0.5 },
+): Promise<CursorPosition> {
   const chart = page.getByTestId('chart-surface');
   await chart.scrollIntoViewIfNeeded();
   const bounds = await chart.boundingBox();
   expect(bounds).not.toBeNull();
 
-  await page.mouse.move(
-    bounds!.x + bounds!.width * 0.45,
-    bounds!.y + bounds!.height * 0.5,
-  );
+  const cursor = {
+    x: bounds!.x + bounds!.width * point.x,
+    y: bounds!.y + bounds!.height * point.y,
+  };
+  await page.mouse.move(cursor.x, cursor.y);
+
+  return cursor;
 }
 
 test('starts at 10K and reaches the end of the explicit 100K state', async ({
@@ -110,19 +126,54 @@ test('separates the controls from the dashboard', async ({ page }) => {
   await expectControlsDashboardGap(page);
 });
 
-test('keeps the tooltip inside the chart', async ({ page }) => {
+test('offsets the tooltip from the cursor and flips it at chart edges', async ({
+  page,
+}) => {
   await page.goto('/frontend-performance-lab/');
-  await moveAcrossChart(page);
-
-  const chartBounds = await page.getByTestId('chart-surface').boundingBox();
   const tooltip = page.locator('output');
+  const preferredCursor = await moveAcrossChart(page, { x: 0.55, y: 0.25 });
   await expect(tooltip).toBeVisible();
-  const tooltipBounds = await tooltip.boundingBox();
+
+  const preferredBounds = await tooltip.boundingBox();
+  expect(preferredBounds).not.toBeNull();
+  expect(
+    Math.abs(
+      preferredCursor.x -
+        (preferredBounds!.x + preferredBounds!.width) -
+        16,
+    ),
+  ).toBeLessThanOrEqual(2);
+  expect(
+    Math.abs(preferredBounds!.y - preferredCursor.y - 16),
+  ).toBeLessThanOrEqual(2);
+
+  const edgeCursor = await moveAcrossChart(page, { x: 0.12, y: 0.92 });
+  await expect
+    .poll(async () => {
+      const bounds = await tooltip.boundingBox();
+      return bounds ? bounds.x - edgeCursor.x : null;
+    })
+    .toBeGreaterThanOrEqual(14);
+
+  const [chartBounds, edgeBounds] = await Promise.all([
+    page.getByTestId('chart-surface').boundingBox(),
+    tooltip.boundingBox(),
+  ]);
 
   expect(chartBounds).not.toBeNull();
-  expect(tooltipBounds).not.toBeNull();
-  expect(tooltipBounds!.y).toBeGreaterThanOrEqual(chartBounds!.y);
-  expect(tooltipBounds!.y + tooltipBounds!.height).toBeLessThanOrEqual(
+  expect(edgeBounds).not.toBeNull();
+  expect(
+    Math.abs(edgeBounds!.x - edgeCursor.x - 16),
+  ).toBeLessThanOrEqual(2);
+  expect(
+    Math.abs(edgeCursor.y - (edgeBounds!.y + edgeBounds!.height) - 16),
+  ).toBeLessThanOrEqual(2);
+  expect(edgeBounds!.x).toBeGreaterThanOrEqual(chartBounds!.x);
+  expect(edgeBounds!.y).toBeGreaterThanOrEqual(chartBounds!.y);
+  expect(edgeBounds!.x + edgeBounds!.width).toBeLessThanOrEqual(
+    chartBounds!.x + chartBounds!.width,
+  );
+  expect(edgeBounds!.y + edgeBounds!.height).toBeLessThanOrEqual(
     chartBounds!.y + chartBounds!.height,
   );
 });
