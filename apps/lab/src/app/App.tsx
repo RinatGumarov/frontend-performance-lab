@@ -11,7 +11,7 @@ import {
   useState,
   type ChangeEvent,
 } from 'react';
-import { toEquitySeries } from '../domain/equity';
+import { toBoundedEquitySeries } from '../domain/equity';
 import { generateTrades } from '../domain/generate-trades';
 import { DATASET_SIZES, type DatasetSize } from '../domain/trade';
 import type { EquityChartFactory } from '../features/chart/EquityChart';
@@ -32,6 +32,8 @@ const DATASET_LABELS: Record<DatasetSize, string> = {
   10_000: '10K',
   100_000: '100K',
 };
+
+const MAX_CHART_POINTS = 2_000;
 
 const SAMPLE_STATUS_COPY = {
   idle: 'Ready to sample 120 animation frames.',
@@ -76,7 +78,10 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
     () => generateTrades(effectiveDatasetSize, 42),
     [effectiveDatasetSize],
   );
-  const equity = useMemo(() => toEquitySeries(trades), [trades]);
+  const equity = useMemo(
+    () => toBoundedEquitySeries(trades, MAX_CHART_POINTS),
+    [trades],
+  );
   const sampleKey = `${mode}:${effectiveDatasetSize}`;
   const sample = useInteractionSample(
     activeObserver,

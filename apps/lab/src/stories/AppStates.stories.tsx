@@ -11,11 +11,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Optimized100K: Story = {
+export const Optimized10K: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole('radio', { name: 'Optimized' })).toBeChecked();
-    await expect(canvas.getByRole('radio', { name: '100K' })).toBeChecked();
+    await expect(canvas.getByRole('radio', { name: '10K' })).toBeChecked();
   },
 };
 
@@ -23,6 +23,12 @@ export const BaselineCapped: Story = {
   parameters: {
     a11y: {
       test: 'off',
+    },
+    docs: {
+      description: {
+        story:
+          'This application state deliberately mounts 10,000 rows, so its duplicate axe pass is disabled. The equivalent small baseline composition remains accessibility-checked.',
+      },
     },
   },
   play: async ({ canvasElement }) => {

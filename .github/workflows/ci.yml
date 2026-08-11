@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright Chromium
-        run: pnpm --filter @riguran/frontend-performance-lab exec playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: pnpm --filter @riguran/frontend-performance-lab exec playwright install --with-deps chromium webkit
 
       - name: Run complete verification
         run: pnpm verify
