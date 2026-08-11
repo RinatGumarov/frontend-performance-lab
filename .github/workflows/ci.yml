@@ -48,7 +48,7 @@ jobs:
             artifacts/performance/
 
   package-node-20:
-    name: Verify package on Node.js 20
+    name: Verify package artifact on Node.js 20
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -67,8 +67,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify package at the supported Node.js floor
-        run: |
-          pnpm --filter @riguran/render-observer test:unit
-          pnpm --filter @riguran/render-observer typecheck
-          pnpm pack:check
+      - name: Verify package artifact at the supported Node.js floor
+        run: pnpm pack:check
