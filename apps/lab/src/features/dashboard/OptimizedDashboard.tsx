@@ -11,7 +11,7 @@ import {
   createTooltipStore,
   type TooltipStore,
 } from '../chart/tooltip-store';
-import { BaselineTradeTable } from '../table/BaselineTradeTable';
+import { VirtualTradeTable } from '../table/VirtualTradeTable';
 import styles from './Dashboard.module.css';
 
 interface OptimizedTooltipProps {
@@ -56,7 +56,7 @@ export function OptimizedDashboard({
         />
         <OptimizedTooltip observer={observer} store={tooltipStore} />
       </div>
-      <BaselineTradeTable observer={observer} trades={trades} />
+      <VirtualTradeTable observer={observer} trades={trades} />
     </section>
   );
 }
