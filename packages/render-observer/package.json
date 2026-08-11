@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rinatgumarov/frontend-performance-lab.git",
+    "url": "https://github.com/RinatGumarov/frontend-performance-lab",
     "directory": "packages/render-observer"
   },
-  "homepage": "https://github.com/rinatgumarov/frontend-performance-lab/tree/main/packages/render-observer#readme",
+  "homepage": "https://github.com/RinatGumarov/frontend-performance-lab/tree/main/packages/render-observer#readme",
   "bugs": {
-    "url": "https://github.com/rinatgumarov/frontend-performance-lab/issues"
+    "url": "https://github.com/RinatGumarov/frontend-performance-lab/issues"
   },
   "keywords": [
     "performance",
@@ -40,7 +40,7 @@
     "rendering",
     "instrumentation"
   ],
-  "author": "Rinat",
+  "author": "Rinat Gumarov",
   "license": "MIT",
   "scripts": {
     "build": "tsup",
@@ -49,6 +49,11 @@
   },
   "peerDependencies": {
     "react": ">=18 <20"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public",

@@ -18,6 +18,18 @@ function Fixture({ children }: { children: ReactNode }) {
   return <div>{children}</div>;
 }
 
+function MeasuredDashboard({ observer }: { observer: RenderObserver }) {
+  useRenderMarker(observer, 'dashboard');
+  return <section>Dashboard</section>;
+}
+
+function RenderEvidence({ observer }: { observer: RenderObserver }) {
+  const snapshot = useRenderSnapshot(observer);
+  return (
+    <output>Dashboard renders: {snapshot.renders.dashboard ?? 0}</output>
+  );
+}
+
 describe('React adapters', () => {
   it('marks committed renders without mutating during render', async () => {
     const observer = createRenderObserver();
@@ -56,5 +68,29 @@ describe('React adapters', () => {
     expect(observer.getSnapshot().profiler.totalDurationMs).toBeGreaterThanOrEqual(
       0,
     );
+  });
+
+  it('keeps the snapshot consumer outside the measured subtree', async () => {
+    const observer = createRenderObserver();
+
+    render(
+      <>
+        <RenderProfiler observer={observer} id="dashboard">
+          <MeasuredDashboard observer={observer} />
+        </RenderProfiler>
+        <RenderEvidence observer={observer} />
+      </>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Dashboard renders: 1')).toBeVisible();
+    });
+    const stableSnapshot = observer.getSnapshot();
+
+    await act(async () => Promise.resolve());
+
+    expect(observer.getSnapshot()).toBe(stableSnapshot);
+    expect(stableSnapshot.renders.dashboard).toBe(1);
+    expect(stableSnapshot.profiler.commitCount).toBeGreaterThan(0);
   });
 });
