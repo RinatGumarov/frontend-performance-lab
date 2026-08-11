@@ -110,6 +110,23 @@ test('separates the controls from the dashboard', async ({ page }) => {
   await expectControlsDashboardGap(page);
 });
 
+test('keeps the tooltip inside the chart', async ({ page }) => {
+  await page.goto('/frontend-performance-lab/');
+  await moveAcrossChart(page);
+
+  const chartBounds = await page.getByTestId('chart-surface').boundingBox();
+  const tooltip = page.locator('output');
+  await expect(tooltip).toBeVisible();
+  const tooltipBounds = await tooltip.boundingBox();
+
+  expect(chartBounds).not.toBeNull();
+  expect(tooltipBounds).not.toBeNull();
+  expect(tooltipBounds!.y).toBeGreaterThanOrEqual(chartBounds!.y);
+  expect(tooltipBounds!.y + tooltipBounds!.height).toBeLessThanOrEqual(
+    chartBounds!.y + chartBounds!.height,
+  );
+});
+
 test('shows a stable fallback when the chart vendor cannot start', async ({
   page,
 }) => {

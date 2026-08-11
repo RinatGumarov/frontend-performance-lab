@@ -1,5 +1,7 @@
 .tooltip {
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 2;
   display: grid;
   min-width: 8rem;
