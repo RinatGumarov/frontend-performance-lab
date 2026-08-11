@@ -3,6 +3,7 @@
 An instrumented React case study that renders 100,000 deterministic synthetic trades while keeping high-frequency tooltip updates outside the dashboard render path.
 
 [![CI](https://github.com/rinatgumarov/frontend-performance-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rinatgumarov/frontend-performance-lab/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@riguran/render-observer)](https://www.npmjs.com/package/@riguran/render-observer)
 
 ## What this proves
 
@@ -70,7 +71,7 @@ Storybook uses production components and CSS rather than parallel demo implement
 
 `@riguran/render-observer` is a small ESM package with a framework-free core and an optional React subpath. The release tarball is checked from a clean consumer project: exported JavaScript, declarations, runtime imports, peer dependencies, package contents, and every TypeScript example in the package README must resolve before publication.
 
-Pushes do not publish the npm package. The first release is a manual protected-environment workflow, separate from the CI-gated Pages deployment.
+Pushes do not publish the npm package. Versioned releases use a manual protected-environment workflow, separate from the CI-gated Pages deployment. Version `0.1.0` is published publicly with npm provenance.
 
 ## Run locally
 
