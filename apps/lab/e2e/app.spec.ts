@@ -21,13 +21,15 @@ async function moveAcrossChart(page: Page): Promise<void> {
   );
 }
 
-test('opens in the optimized 100K state and reaches the end of the virtual table', async ({
+test('starts at 10K and reaches the end of the explicit 100K state', async ({
   page,
 }) => {
   await page.goto('/frontend-performance-lab/');
 
   await expect(page.getByRole('radio', { name: 'Optimized' })).toBeChecked();
-  await expect(page.getByRole('radio', { name: '100K' })).toBeChecked();
+  await expect(page.getByRole('radio', { name: '10K' })).toBeChecked();
+
+  await page.getByRole('radio', { name: '100K' }).click();
 
   const table = page.getByRole('table', {
     name: 'Virtualized trade history',

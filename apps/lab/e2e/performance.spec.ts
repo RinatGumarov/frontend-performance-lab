@@ -101,6 +101,7 @@ test('records reproducible structural rendering evidence', async ({
   test.slow();
 
   await page.goto('/frontend-performance-lab/');
+  await page.getByRole('radio', { name: '100K' }).click();
   await waitForMode(page, 'optimized', 100_000);
 
   const optimizedAt100K = await snapshot(page);

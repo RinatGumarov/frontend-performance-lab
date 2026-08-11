@@ -111,11 +111,11 @@ function createTooltipIndex(
   points: readonly EquityPoint[],
 ): ReadonlyMap<number, TooltipPoint> {
   return new Map(
-    points.map((point, index) => [
+    points.map((point) => [
       point.time,
       {
-        tradeId: index + 1,
-        pnl: index === 0 ? null : point.value - points[index - 1]!.value,
+        tradeId: point.tradeId,
+        pnl: point.pnl,
       },
     ]),
   );

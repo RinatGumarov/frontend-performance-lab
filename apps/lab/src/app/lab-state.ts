@@ -6,7 +6,7 @@ import {
 export type LabMode = 'baseline' | 'optimized';
 
 export const DEFAULT_MODE: LabMode = 'optimized';
-export const DEFAULT_DATASET_SIZE: DatasetSize = 100_000;
+export const DEFAULT_DATASET_SIZE: DatasetSize = 10_000;
 
 export function normalizeDatasetSize(
   mode: LabMode,

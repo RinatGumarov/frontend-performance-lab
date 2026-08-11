@@ -19,7 +19,7 @@ function createIdleScheduler(): FrameScheduler {
 
 describe('App', () => {
   it(
-    'starts optimized at 100K and clamps the baseline',
+    'starts optimized at 10K, supports 100K, and clamps the baseline',
     async () => {
       mockElementSize({ height: 600, width: 1_200 });
       const observer = createRenderObserver();
@@ -40,12 +40,26 @@ describe('App', () => {
         }),
       ).toBeVisible();
       expect(screen.getByRole('radio', { name: 'Optimized' })).toBeChecked();
-      expect(screen.getByRole('radio', { name: '100K' })).toBeChecked();
+      expect(screen.getByRole('radio', { name: '10K' })).toBeChecked();
+      await waitFor(() => {
+        expect(observer.getSnapshot().context).toEqual({
+          mode: 'optimized',
+          datasetSize: 10_000,
+        });
+      });
+
+      await user.click(screen.getByRole('radio', { name: '100K' }));
       await waitFor(() => {
         expect(observer.getSnapshot().context).toEqual({
           mode: 'optimized',
           datasetSize: 100_000,
         });
+      });
+      await waitFor(() => {
+        const points = vi.mocked(chart.adapter.setData).mock.lastCall?.[0];
+        expect(points?.length).toBeLessThanOrEqual(2_000);
+        expect(points?.[0]?.tradeId).toBe(1);
+        expect(points?.at(-1)?.tradeId).toBe(100_000);
       });
 
       await user.click(screen.getByRole('radio', { name: 'Baseline' }));

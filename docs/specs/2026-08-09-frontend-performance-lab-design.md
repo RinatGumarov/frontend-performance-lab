@@ -76,7 +76,7 @@ frontend-performance-lab/
 
 ## Runtime comparison contract
 
-Both modes receive the same immutable `Trade[]` and derived equity series.
+Both modes receive the same immutable `Trade[]` and bounded derived equity series.
 
 ### Shared behavior
 
@@ -111,7 +111,7 @@ React Compiler remains disabled for the comparison. The optimization techniques 
 1. The user selects an implementation and dataset size.
 2. A deferred dataset value prevents the control interaction from blocking immediately.
 3. The deterministic generator creates trades with a fixed seed outside module initialization.
-4. Equity aggregation runs once for the committed dataset.
+4. Equity aggregation scans the committed dataset once and returns at most 2,000 chronological points while preserving source metadata.
 5. The selected dashboard receives the same trade and equity inputs.
 6. Pointer movement is converted by the shared chart adapter into `TooltipSnapshot` values.
 7. Baseline sends snapshots to React state; optimized sends them to a dedicated tooltip store.
@@ -186,7 +186,7 @@ The product balances an engineering lab with a polished portfolio piece:
 - strong focus states, color-independent P&L labels, and reduced-motion support;
 - direct links to GitHub, Storybook, and npm.
 
-Optimized mode with 100,000 trades is the default public view. Selecting baseline while 100,000 is active clamps the effective dataset to 10,000 and displays the safety explanation.
+Optimized mode with 10,000 trades is the default public view. The 100,000-trade case remains an explicit optimized option. Selecting baseline while 100,000 is active clamps the effective dataset to 10,000 and displays the safety explanation.
 
 The visual language must remain original rather than imitate another trading product.
 
@@ -221,7 +221,7 @@ Storybook uses the production components and CSS. It builds under `/frontend-per
 ### Unit and component tests
 
 - generator determinism and trade invariants;
-- equity aggregation;
+- full and bounded equity aggregation, including source metadata and extrema preservation;
 - observer immutability, no-op updates, subscription cleanup, and reset behavior;
 - scheduler-driven frame sampling and cancellation;
 - baseline render behavior;
@@ -272,7 +272,7 @@ The main README is ordered for a five-minute recruiter review:
 9. Trade-offs
 10. Privacy and provenance
 
-ADRs record the comparison contract, tooltip state boundary, table virtualization choice, and package boundary.
+ADRs record the comparison contract, tooltip state boundary, table virtualization choice, package boundary, and startup/chart-data boundary.
 
 ## Repository history
 
