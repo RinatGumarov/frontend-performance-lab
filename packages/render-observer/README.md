@@ -2,7 +2,7 @@
 
 A small typed observer for collecting structural rendering evidence. Its framework-free core tracks named render counts, mounted collection sizes, React Profiler commits, context, and animation-frame samples. React integration is available through a separate peer-dependent subpath.
 
-The package powers the [Frontend Performance Lab](https://github.com/rinatgumarov/frontend-performance-lab), where the same snapshot feeds visible metrics and browser-level assertions.
+The package powers the [Frontend Performance Lab](https://github.com/RinatGumarov/frontend-performance-lab), where the same snapshot feeds visible metrics and browser-level assertions.
 
 ## Installation
 
@@ -52,21 +52,32 @@ const observer = createRenderObserver();
 
 function Dashboard() {
   useRenderMarker(observer, 'dashboard');
+  return <section>Dashboard</section>;
+}
+
+function RenderEvidence() {
   const snapshot = useRenderSnapshot(observer);
 
-  return <output>{snapshot.renders.dashboard ?? 0}</output>;
+  return (
+    <output>Dashboard renders: {snapshot.renders.dashboard ?? 0}</output>
+  );
 }
 
 export function InstrumentedDashboard() {
   return (
-    <RenderProfiler id="dashboard" observer={observer}>
-      <Dashboard />
-    </RenderProfiler>
+    <>
+      <RenderProfiler id="dashboard" observer={observer}>
+        <Dashboard />
+      </RenderProfiler>
+      <RenderEvidence />
+    </>
   );
 }
 ```
 
 `useRenderSnapshot` uses `useSyncExternalStore` and handles subscription cleanup. `useRenderMarker` records after a committed render from a layout effect; it does not update the observer during React render. `RenderProfiler` forwards React Profiler commit durations to the observer when the active React build supports profiling.
+
+Keep snapshot consumers outside the subtree they measure. A marker or profiler publishes after its subtree commits; subscribing to that same observer inside the measured subtree creates a measurement feedback loop rather than useful evidence.
 
 ## Frame sampling and scheduler injection
 

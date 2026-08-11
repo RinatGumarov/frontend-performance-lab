@@ -18,7 +18,7 @@ The default view starts in the optimized 10K case so a portfolio visit stays lig
 - [Application](https://rinatgumarov.github.io/frontend-performance-lab/)
 - [Storybook](https://rinatgumarov.github.io/frontend-performance-lab/storybook/)
 - [npm package](https://www.npmjs.com/package/@riguran/render-observer)
-- [Source repository](https://github.com/rinatgumarov/frontend-performance-lab)
+- [Source repository](https://github.com/RinatGumarov/frontend-performance-lab)
 
 The application and Storybook are assembled into one GitHub Pages artifact. Package releases use the same source tree and a separately verified package boundary.
 
