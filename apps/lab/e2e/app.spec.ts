@@ -9,6 +9,23 @@ async function expectNoPageOverflow(page: Page): Promise<void> {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
 }
 
+async function expectControlsDashboardGap(page: Page): Promise<void> {
+  const controls = page.getByRole('region', { name: 'Lab controls' });
+  const dashboard = page.locator(
+    'section[aria-label="Lab controls"] + section',
+  );
+  const [controlsBounds, dashboardBounds] = await Promise.all([
+    controls.boundingBox(),
+    dashboard.boundingBox(),
+  ]);
+
+  expect(controlsBounds).not.toBeNull();
+  expect(dashboardBounds).not.toBeNull();
+  expect(
+    dashboardBounds!.y - (controlsBounds!.y + controlsBounds!.height),
+  ).toBeGreaterThanOrEqual(16);
+}
+
 async function moveAcrossChart(page: Page): Promise<void> {
   const chart = page.getByTestId('chart-surface');
   await chart.scrollIntoViewIfNeeded();
@@ -83,6 +100,14 @@ test('keeps the page inside a narrow viewport', async ({ page }) => {
     }),
   ).toBeVisible();
   await expectNoPageOverflow(page);
+});
+
+test('separates the controls from the dashboard', async ({ page }) => {
+  await page.goto('/frontend-performance-lab/');
+  await expectControlsDashboardGap(page);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectControlsDashboardGap(page);
 });
 
 test('shows a stable fallback when the chart vendor cannot start', async ({
