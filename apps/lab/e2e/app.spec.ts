@@ -83,6 +83,27 @@ test('starts at 10K and reaches the end of the explicit 100K state', async ({
   await expectNoPageOverflow(page);
 });
 
+test('updates the dashboard once per dataset selection', async ({ page }) => {
+  await page.goto('/frontend-performance-lab/');
+  await expect(page.getByRole('radio', { name: '10K' })).toBeChecked();
+  await page.evaluate(() => window.__RENDER_LAB__.reset());
+
+  await page.getByRole('radio', { name: '100K' }).click();
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.__RENDER_LAB__.snapshot().context.datasetSize),
+    )
+    .toBe(100_000);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.__RENDER_LAB__.snapshot().renders.dashboard ?? 0,
+      ),
+    )
+    .toBe(1);
+});
+
 test('supports keyboard mode changes and clamps the baseline to 10K', async ({
   page,
 }) => {

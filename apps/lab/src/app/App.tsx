@@ -3,7 +3,6 @@ import {
   type FrameScheduler,
   type RenderObserver,
 } from '@riguran/render-observer';
-import { RenderProfiler } from '@riguran/render-observer/react';
 import {
   useDeferredValue,
   useEffect,
@@ -15,10 +14,9 @@ import { toBoundedEquitySeries } from '../domain/equity';
 import { generateTrades } from '../domain/generate-trades';
 import { DATASET_SIZES, type DatasetSize } from '../domain/trade';
 import type { EquityChartFactory } from '../features/chart/EquityChart';
-import { BaselineDashboard } from '../features/dashboard/BaselineDashboard';
-import { OptimizedDashboard } from '../features/dashboard/OptimizedDashboard';
 import { MetricsPanel } from '../features/metrics/MetricsPanel';
 import styles from './App.module.css';
+import { DashboardStage } from './DashboardStage';
 import {
   DEFAULT_DATASET_SIZE,
   DEFAULT_MODE,
@@ -70,6 +68,7 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
   const [requestedDatasetSize, setRequestedDatasetSize] =
     useState<DatasetSize>(DEFAULT_DATASET_SIZE);
   const deferredDatasetSize = useDeferredValue(requestedDatasetSize);
+  const isDatasetPending = requestedDatasetSize !== deferredDatasetSize;
   const effectiveDatasetSize = normalizeDatasetSize(
     mode,
     deferredDatasetSize,
@@ -109,23 +108,6 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
   ): void => {
     setRequestedDatasetSize(Number(event.target.value) as DatasetSize);
   };
-
-  const dashboard =
-    mode === 'baseline' ? (
-      <BaselineDashboard
-        chartFactory={chartFactory}
-        equity={equity}
-        observer={activeObserver}
-        trades={trades}
-      />
-    ) : (
-      <OptimizedDashboard
-        chartFactory={chartFactory}
-        equity={equity}
-        observer={activeObserver}
-        trades={trades}
-      />
-    );
 
   return (
     <main className={styles.app}>
@@ -214,22 +196,22 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
             Baseline is capped at 10,000 rows to keep this tab responsive.
           </p>
         ) : null}
-        {requestedDatasetSize !== deferredDatasetSize ? (
-          <p className={styles.status}>
-            Preparing {requestedDatasetSize.toLocaleString('en-US')} synthetic
-            trades…
-          </p>
-        ) : null}
         <p aria-live="polite" className={styles.status} role="status">
-          {SAMPLE_STATUS_COPY[sample.status]}
+          {isDatasetPending
+            ? `Preparing ${requestedDatasetSize.toLocaleString('en-US')} synthetic trades…`
+            : SAMPLE_STATUS_COPY[sample.status]}
         </p>
       </section>
 
       <section className={styles.evidenceGrid}>
         <div>
-          <RenderProfiler id="dashboard" observer={activeObserver}>
-            {dashboard}
-          </RenderProfiler>
+          <DashboardStage
+            chartFactory={chartFactory}
+            equity={equity}
+            mode={mode}
+            observer={activeObserver}
+            trades={trades}
+          />
         </div>
         <MetricsPanel observer={activeObserver} />
       </section>
