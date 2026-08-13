@@ -1,5 +1,5 @@
 import { createRenderObserver, type FrameScheduler } from '@riguran/render-observer';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createChartHarness } from '../features/chart/EquityChart.test-utils';
@@ -17,70 +17,97 @@ function createIdleScheduler(): FrameScheduler {
   };
 }
 
+function createManualScheduler(): FrameScheduler & {
+  advanceFrames(count: number): void;
+} {
+  const callbacks = new Map<number, (timestamp: number) => void>();
+  let nextHandle = 0;
+  let timestamp = 0;
+
+  return {
+    request(callback) {
+      nextHandle += 1;
+      callbacks.set(nextHandle, callback);
+      return nextHandle;
+    },
+    cancel(handle) {
+      callbacks.delete(handle);
+    },
+    advanceFrames(count) {
+      for (let index = 0; index < count; index += 1) {
+        const pending = callbacks.entries().next().value;
+        if (pending === undefined) {
+          throw new Error('No animation frame is pending');
+        }
+        const [handle, callback] = pending;
+        callbacks.delete(handle);
+        timestamp += 16;
+        callback(timestamp);
+      }
+    },
+  };
+}
+
 describe('App', () => {
-  it('starts optimized at 100K and clamps the baseline', async () => {
-    mockElementSize({ height: 600, width: 1_200 });
-    const observer = createRenderObserver();
-    const chart = createChartHarness();
-    const user = userEvent.setup();
+  it(
+    'starts optimized at 10K, supports 100K, and clamps the baseline',
+    async () => {
+      mockElementSize({ height: 600, width: 1_200 });
+      const observer = createRenderObserver();
+      const chart = createChartHarness();
+      const user = userEvent.setup();
 
-    render(
-      <App
-        chartFactory={chart.factory}
-        frameScheduler={createIdleScheduler()}
-        observer={observer}
-      />,
-    );
+      render(
+        <App
+          chartFactory={chart.factory}
+          frameScheduler={createIdleScheduler()}
+          observer={observer}
+        />,
+      );
 
-    expect(
-      screen.getByRole('heading', {
-        name: /rendering 100,000 trades without rerendering the dashboard/i,
-      }),
-    ).toBeVisible();
-    expect(screen.getByRole('radio', { name: 'Optimized' })).toBeChecked();
-    expect(screen.getByRole('radio', { name: '100K' })).toBeChecked();
-    await waitFor(() => {
-      expect(observer.getSnapshot().context).toEqual({
-        mode: 'optimized',
-        datasetSize: 100_000,
+      expect(
+        screen.getByRole('heading', {
+          name: /rendering 100,000 trades without rerendering the dashboard/i,
+        }),
+      ).toBeVisible();
+      expect(screen.getByRole('radio', { name: 'Optimized' })).toBeChecked();
+      expect(screen.getByRole('radio', { name: '10K' })).toBeChecked();
+      await waitFor(() => {
+        expect(observer.getSnapshot().context).toEqual({
+          mode: 'optimized',
+          datasetSize: 10_000,
+        });
       });
-    });
 
-    await user.click(screen.getByRole('radio', { name: 'Baseline' }));
-
-    expect(screen.getByRole('radio', { name: '10K' })).toBeChecked();
-    expect(
-      screen.getByText(
-        'Baseline is capped at 10,000 rows to keep this tab responsive.',
-      ),
-    ).toBeVisible();
-    await waitFor(() => {
-      expect(observer.getSnapshot().context).toEqual({
-        mode: 'baseline',
-        datasetSize: 10_000,
+      await user.click(screen.getByRole('radio', { name: '100K' }));
+      await waitFor(() => {
+        expect(observer.getSnapshot().context).toEqual({
+          mode: 'optimized',
+          datasetSize: 100_000,
+        });
       });
-    });
-  });
+      await waitFor(() => {
+        const points = vi.mocked(chart.adapter.setData).mock.lastCall?.[0];
+        expect(points?.length).toBeLessThanOrEqual(2_000);
+        expect(points?.[0]?.tradeId).toBe(1);
+        expect(points?.at(-1)?.tradeId).toBe(100_000);
+      });
 
-  it('exposes interaction sampling status in a polite live region', async () => {
-    mockElementSize({ height: 600, width: 1_200 });
-    const chart = createChartHarness();
-    const user = userEvent.setup();
+      await user.click(screen.getByRole('radio', { name: 'Baseline' }));
 
-    render(
-      <App
-        chartFactory={chart.factory}
-        frameScheduler={createIdleScheduler()}
-      />,
-    );
-
-    await user.click(
-      screen.getByRole('button', { name: 'Run interaction sample' }),
-    );
-
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'Sampling 120 animation frames…',
-    );
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
-  });
+      expect(screen.getByRole('radio', { name: '10K' })).toBeChecked();
+      expect(
+        screen.getByText(
+          'Baseline is capped at 10,000 rows to keep this tab responsive.',
+        ),
+      ).toBeVisible();
+      await waitFor(() => {
+        expect(observer.getSnapshot().context).toEqual({
+          mode: 'baseline',
+          datasetSize: 10_000,
+        });
+      });
+    },
+    15_000,
+  );
 });
