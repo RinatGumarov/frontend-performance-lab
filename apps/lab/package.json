@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "benchmark": "WRITE_BENCHMARK_REPORT=1 playwright test e2e/performance.spec.ts",
     "preview": "vite preview",
+    "test:e2e": "playwright test",
     "test:unit": "vitest run",
     "typecheck": "tsc -b --pretty false"
   },
@@ -18,9 +20,11 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.3",
+    "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",

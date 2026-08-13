@@ -66,9 +66,11 @@ export function VirtualTradeTable({
           </span>
         </div>
         <div
+          aria-label="Scrollable trade rows"
           className={styles.virtualBody}
           ref={scrollElementRef}
           role="rowgroup"
+          tabIndex={0}
         >
           <div
             className={styles.virtualCanvas}
