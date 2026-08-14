@@ -104,6 +104,48 @@ test('updates the dashboard once per dataset selection', async ({ page }) => {
     .toBe(1);
 });
 
+test('keeps the live status stable during a deferred dataset update', async ({
+  page,
+}) => {
+  await page.goto('/frontend-performance-lab/');
+  const status = page.getByRole('status');
+  await expect(status).toHaveText('Ready to sample 120 animation frames.');
+  await page.evaluate(() => {
+    const element = document.querySelector('[role="status"]');
+    if (!(element instanceof HTMLElement)) {
+      throw new Error('Live status is unavailable');
+    }
+
+    const values: string[] = [];
+    const observer = new MutationObserver(() => {
+      values.push(element.textContent ?? '');
+    });
+    observer.observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    Reflect.set(window, '__STATUS_CHANGES__', { observer, values });
+  });
+
+  await page.getByRole('radio', { name: '100K' }).click();
+  await expect(
+    page.getByRole('table', { name: 'Virtualized trade history' }),
+  ).toHaveAttribute('aria-rowcount', '100001');
+
+  const changes = await page.evaluate(() => {
+    const state = Reflect.get(window, '__STATUS_CHANGES__') as {
+      observer: MutationObserver;
+      values: string[];
+    };
+    state.observer.disconnect();
+    return state.values;
+  });
+
+  expect(changes).toEqual([]);
+  await expect(status).toHaveText('Ready to sample 120 animation frames.');
+});
+
 test('supports keyboard mode changes and clamps the baseline to 10K', async ({
   page,
 }) => {

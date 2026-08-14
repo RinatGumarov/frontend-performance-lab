@@ -68,7 +68,6 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
   const [requestedDatasetSize, setRequestedDatasetSize] =
     useState<DatasetSize>(DEFAULT_DATASET_SIZE);
   const deferredDatasetSize = useDeferredValue(requestedDatasetSize);
-  const isDatasetPending = requestedDatasetSize !== deferredDatasetSize;
   const effectiveDatasetSize = normalizeDatasetSize(
     mode,
     deferredDatasetSize,
@@ -197,9 +196,7 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
           </p>
         ) : null}
         <p aria-live="polite" className={styles.status} role="status">
-          {isDatasetPending
-            ? `Preparing ${requestedDatasetSize.toLocaleString('en-US')} synthetic trades…`
-            : SAMPLE_STATUS_COPY[sample.status]}
+          {SAMPLE_STATUS_COPY[sample.status]}
         </p>
       </section>
 
