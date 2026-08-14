@@ -1,5 +1,5 @@
 import { createRenderObserver, type FrameScheduler } from '@riguran/render-observer';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createChartHarness } from '../features/chart/EquityChart.test-utils';
@@ -14,6 +14,37 @@ function createIdleScheduler(): FrameScheduler {
   return {
     request: vi.fn(() => 1),
     cancel: vi.fn(),
+  };
+}
+
+function createManualScheduler(): FrameScheduler & {
+  advanceFrames(count: number): void;
+} {
+  const callbacks = new Map<number, (timestamp: number) => void>();
+  let nextHandle = 0;
+  let timestamp = 0;
+
+  return {
+    request(callback) {
+      nextHandle += 1;
+      callbacks.set(nextHandle, callback);
+      return nextHandle;
+    },
+    cancel(handle) {
+      callbacks.delete(handle);
+    },
+    advanceFrames(count) {
+      for (let index = 0; index < count; index += 1) {
+        const pending = callbacks.entries().next().value;
+        if (pending === undefined) {
+          throw new Error('No animation frame is pending');
+        }
+        const [handle, callback] = pending;
+        callbacks.delete(handle);
+        timestamp += 16;
+        callback(timestamp);
+      }
+    },
   };
 }
 
@@ -100,5 +131,37 @@ describe('App', () => {
       'Sampling 120 animation frames…',
     );
     expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('locks experiment configuration only while a sample is running', async () => {
+    mockElementSize({ height: 600, width: 1_200 });
+    const chart = createChartHarness();
+    const scheduler = createManualScheduler();
+    const user = userEvent.setup();
+
+    render(
+      <App
+        chartFactory={chart.factory}
+        frameScheduler={scheduler}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: 'Run interaction sample' }),
+    );
+
+    expect(screen.getByRole('radio', { name: 'Baseline' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: 'Optimized' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '1K' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '10K' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '100K' })).toBeDisabled();
+
+    act(() => scheduler.advanceFrames(120));
+
+    expect(screen.getByRole('radio', { name: 'Baseline' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: 'Optimized' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '1K' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '10K' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '100K' })).toBeEnabled();
   });
 });

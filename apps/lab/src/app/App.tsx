@@ -142,7 +142,10 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
       </header>
 
       <section aria-label="Lab controls" className={styles.controls}>
-        <fieldset className={styles.fieldset}>
+        <fieldset
+          className={styles.fieldset}
+          disabled={sample.status === 'running'}
+        >
           <legend className={styles.legend}>Rendering strategy</legend>
           <div className={styles.choices}>
             {(['baseline', 'optimized'] as const).map((option) => (
@@ -162,7 +165,10 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
           </div>
         </fieldset>
 
-        <fieldset className={styles.fieldset}>
+        <fieldset
+          className={styles.fieldset}
+          disabled={sample.status === 'running'}
+        >
           <legend className={styles.legend}>Dataset size</legend>
           <div className={styles.choices}>
             {DATASET_SIZES.map((size) => (
