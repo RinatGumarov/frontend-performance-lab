@@ -19,4 +19,6 @@ export interface Trade {
 export interface EquityPoint {
   time: number;
   value: number;
+  tradeId: number;
+  pnl: number;
 }

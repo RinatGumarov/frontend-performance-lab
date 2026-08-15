@@ -11,7 +11,7 @@ import {
   useState,
   type ChangeEvent,
 } from 'react';
-import { toEquitySeries } from '../domain/equity';
+import { toBoundedEquitySeries } from '../domain/equity';
 import { generateTrades } from '../domain/generate-trades';
 import { DATASET_SIZES, type DatasetSize } from '../domain/trade';
 import type { EquityChartFactory } from '../features/chart/EquityChart';
@@ -33,12 +33,25 @@ const DATASET_LABELS: Record<DatasetSize, string> = {
   100_000: '100K',
 };
 
+const MAX_CHART_POINTS = 2_000;
+
 const SAMPLE_STATUS_COPY = {
   idle: 'Ready to sample 120 animation frames.',
   running: 'Sampling 120 animation frames…',
   complete: 'Animation frame sample complete.',
   error: 'Animation frame sample failed.',
 } as const;
+
+const PROJECT_LINKS = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/rinatgumarov/frontend-performance-lab',
+  },
+  {
+    label: 'npm',
+    href: 'https://www.npmjs.com/package/@riguran/render-observer',
+  },
+] as const;
 
 export interface AppProps {
   observer?: RenderObserver;
@@ -61,7 +74,10 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
     () => generateTrades(effectiveDatasetSize, 42),
     [effectiveDatasetSize],
   );
-  const equity = useMemo(() => toEquitySeries(trades), [trades]);
+  const equity = useMemo(
+    () => toBoundedEquitySeries(trades, MAX_CHART_POINTS),
+    [trades],
+  );
   const sampleKey = `${mode}:${effectiveDatasetSize}`;
   const sample = useInteractionSample(
     activeObserver,
@@ -112,9 +128,20 @@ export function App({ observer, chartFactory, frameScheduler }: AppProps) {
       <header className={styles.header}>
         <nav aria-label="Project links" className={styles.navigation}>
           <span className={styles.brand}>Frontend Performance Lab</span>
-          <span aria-label="Links become active after publication" className={styles.inactiveLinks}>
-            GitHub · Storybook · npm
-          </span>
+          <ul className={styles.navLinks}>
+            {PROJECT_LINKS.map((link) => (
+              <li key={link.label}>
+                <a
+                  className={styles.navLink}
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
         <div>
           <p className={styles.eyebrow}>Instrumented React case study</p>
