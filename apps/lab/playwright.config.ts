@@ -30,5 +30,10 @@ export default defineConfig({
       testIgnore: /webkit-startup\.spec\.ts/,
       use: { browserName: 'chromium' },
     },
+    {
+      name: 'webkit-startup',
+      testMatch: /webkit-startup\.spec\.ts/,
+      use: { browserName: 'webkit' },
+    },
   ],
 });
