@@ -2,9 +2,9 @@
   position: relative;
   min-height: 22rem;
   overflow: hidden;
-  border: 1px solid #252b33;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #11151a;
+  background: var(--surface);
 }
 
 .surface {
@@ -16,5 +16,5 @@
   display: grid;
   min-height: 22rem;
   place-items: center;
-  color: #8ea0b5;
+  color: var(--muted);
 }
