@@ -8,8 +8,18 @@ import {
 } from './EquityChart';
 
 const points: EquityPoint[] = [
-  { time: 1_735_689_600_000, value: 100_000 },
-  { time: 1_735_689_660_000, value: 100_012.5 },
+  {
+    time: 1_735_689_600_000,
+    value: 100_000,
+    tradeId: 1,
+    pnl: 4.5,
+  },
+  {
+    time: 1_735_689_660_000,
+    value: 100_012.5,
+    tradeId: 51,
+    pnl: 7.25,
+  },
 ];
 
 afterEach(() => {
@@ -89,8 +99,8 @@ describe('EquityChart', () => {
       visible: true,
       x: 40,
       y: 24,
-      tradeId: 2,
-      pnl: 12.5,
+      tradeId: 51,
+      pnl: 7.25,
     });
 
     unmount();
