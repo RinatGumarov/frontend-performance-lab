@@ -38,6 +38,27 @@ test('starts at 10K and browses the whole 100K dataset', async ({ page }) => {
   await expect(page.getByText('#100000', { exact: true })).toBeVisible();
 });
 
+test('renders the dashboard once per dataset change', async ({ page }) => {
+  await page.goto('/frontend-performance-lab/');
+  await expect(page.getByRole('radio', { name: '10K' })).toBeChecked();
+  await page.evaluate(() => window.__RENDER_LAB__.reset());
+
+  await page.getByRole('radio', { name: '100K' }).click();
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.__RENDER_LAB__.snapshot().context.datasetSize),
+    )
+    .toBe(100_000);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.__RENDER_LAB__.snapshot().renders.dashboard ?? 0,
+      ),
+    )
+    .toBe(1);
+});
+
 test('switches mode from the keyboard and clamps the baseline to 10K', async ({
   page,
 }) => {
