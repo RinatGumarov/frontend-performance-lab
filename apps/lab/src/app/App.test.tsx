@@ -110,4 +110,36 @@ describe('App', () => {
     },
     15_000,
   );
+
+  it('locks the configuration while a frame sample is running', async () => {
+    mockElementSize({ height: 600, width: 1_200 });
+    const chart = createChartHarness();
+    const scheduler = createManualScheduler();
+    const user = userEvent.setup();
+
+    render(
+      <App
+        chartFactory={chart.factory}
+        frameScheduler={scheduler}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: 'Run interaction sample' }),
+    );
+
+    expect(screen.getByRole('radio', { name: 'Baseline' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: 'Optimized' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '1K' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '10K' })).toBeDisabled();
+    expect(screen.getByRole('radio', { name: '100K' })).toBeDisabled();
+
+    act(() => scheduler.advanceFrames(120));
+
+    expect(screen.getByRole('radio', { name: 'Baseline' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: 'Optimized' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '1K' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '10K' })).toBeEnabled();
+    expect(screen.getByRole('radio', { name: '100K' })).toBeEnabled();
+  });
 });
