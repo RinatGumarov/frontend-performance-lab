@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 async function moveAcrossChart(page: Page): Promise<void> {
@@ -109,4 +110,19 @@ test('falls back to a readable status when the chart vendor cannot start', async
   await expect(
     page.getByRole('status').filter({ hasText: 'Chart unavailable' }),
   ).toBeVisible();
+});
+
+// Only the default optimized view: running axe against the baseline would mean
+// auditing 10,000 mounted rows, which says nothing the 22-row version does not.
+test('reports no accessibility violations in the default view', async ({
+  page,
+}) => {
+  await page.goto('/frontend-performance-lab/');
+  await expect(page.getByTestId('trade-row').first()).toBeVisible();
+
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa'])
+    .analyze();
+
+  expect(violations.map((violation) => violation.id)).toEqual([]);
 });
