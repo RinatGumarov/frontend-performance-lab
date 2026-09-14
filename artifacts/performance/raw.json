@@ -4,7 +4,7 @@
     "width": 1440,
     "height": 900
   },
-  "generatedAt": "2026-08-09T17:19:17.767Z",
+  "generatedAt": "2026-09-14T04:09:36.843Z",
   "baseline": {
     "context": {
       "mode": "baseline",
@@ -18,8 +18,8 @@
       "trades": 10000
     },
     "profiler": {
-      "commitCount": 0,
-      "totalDurationMs": 0
+      "commitCount": 30,
+      "totalDurationMs": 4699.10000000021
     },
     "frames": {
       "sampleCount": 0,
@@ -34,14 +34,14 @@
     },
     "renders": {
       "dashboard": 0,
-      "tooltip": 30
+      "tooltip": 31
     },
     "mountedItems": {
       "trades": 22
     },
     "profiler": {
-      "commitCount": 0,
-      "totalDurationMs": 0
+      "commitCount": 31,
+      "totalDurationMs": 2.900000000023283
     },
     "frames": {
       "sampleCount": 0,

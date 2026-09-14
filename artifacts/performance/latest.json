@@ -13,8 +13,8 @@
       "trades": 10000
     },
     "profiler": {
-      "commitCount": 0,
-      "totalDurationMs": 0
+      "commitCount": 30,
+      "totalDurationMs": 4699.10000000021
     },
     "renders": {
       "dashboard": 30,
@@ -23,7 +23,7 @@
   },
   "browser": "chromium",
   "disclaimer": "Local observation; not a universal guarantee.",
-  "generatedAt": "2026-08-09T17:19:17.767Z",
+  "generatedAt": "2026-09-14T04:09:36.843Z",
   "optimized": {
     "context": {
       "datasetSize": 10000,
@@ -38,12 +38,12 @@
       "trades": 22
     },
     "profiler": {
-      "commitCount": 0,
-      "totalDurationMs": 0
+      "commitCount": 31,
+      "totalDurationMs": 2.900000000023283
     },
     "renders": {
       "dashboard": 0,
-      "tooltip": 30
+      "tooltip": 31
     }
   },
   "viewport": {
