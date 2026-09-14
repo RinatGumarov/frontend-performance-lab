@@ -98,7 +98,9 @@ test('records reproducible structural rendering evidence', async ({
   browserName,
   page,
 }) => {
-  test.slow();
+  // The baseline sweep re-renders 10,000 rows per pointer move, which is the
+  // point of the measurement and is genuinely slow on modest hardware.
+  test.setTimeout(300_000);
 
   await page.goto('/frontend-performance-lab/');
   await page.getByRole('radio', { name: '100K' }).click();
